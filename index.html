@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Message to Telegram</title>
+</head>
+<body>
+  <h1>Send a Message</h1>
+  <form id="telegramForm">
+    <label for="message">Your Message:</label><br>
+    <textarea id="message" name="text" rows="5" cols="30" required></textarea><br><br>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    document.getElementById('telegramForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        text: document.getElementById('message').value,
+      };
+
+      try {
+        const response = await fetch('https://telegram-form-handler.henrycrane65.workers.dev/', { // Replace with your Worker URL
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          alert('Message sent successfully!');
+        } else {
+          alert('Failed to send message.');
+        }
+      } catch (error) {
+        alert('An error occurred: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
